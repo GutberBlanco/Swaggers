@@ -1,0 +1,203 @@
+swagger: "2.0"
+info:
+  description: "La API de MetalCorp se encarga  de manejar información acerca de la base de datos de la empresa MetalCorp delicada a la venta de productos de construcción."
+  version: "1.0.0"
+  title: "MetalCorp API"
+  contact:
+    email: "api.products@metalcorp.com"
+servers:
+- url: https://api.metalcorp/v1/
+
+tags:
+- name: reservas
+  description: Este endpoint se encarga en todo lo relacionado con la reserva de productos.
+- name: clientes
+  description: Este endpoint se encarga en todo lo relacionado con la información de los clientes.
+- name: sucursales
+  description: Este endpoint se encarga en todo lo relacionado con la información de las sucursales.
+paths:
+  /reserves/:
+    post:
+      tags:
+      - reservas
+      summary: Inserta una nueva reserva a la base de datos.
+      parameters:
+      - $ref: '#/components/parameters/token'
+      - $ref: '#/components/parameters/bodyreserves'
+      
+      
+      responses:
+        200:
+          $ref: '#/components/responses/SaveCorrectReserve'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        402:
+          $ref: '#/components/responses/ServerError'
+        500:
+          $ref: '#/components/responses/NotFound'
+  /reserves/{idProducto}:
+    get:
+      tags:
+      - reservas
+      summary: Obtiene los datos de un producto mediante su id
+      parameters:
+      - $ref: '#/components/parameters/token'
+      - name: "idProducto"
+        in: "path"
+        description: "El id del producto a obtener"
+        required: true
+        type: "string"
+      
+      responses:
+        200:
+          description: La información del producto se obtuvo correctamente
+          schema:
+            $ref: '#/components/schemas/Products'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        402:
+          $ref: '#/components/responses/ServerError'
+        500:
+          $ref: '#/components/responses/NotFound'
+  /Clients/{ciClient}:
+    get:
+      tags:
+      - clientes
+      summary: Obtiene el nombre del cliente mediante su ci
+      parameters:
+      - $ref: '#/components/parameters/token'
+      - name: "ciClient"
+        in: "path"
+        description: "El ci del cliente a obtener"
+        required: true
+        type: "string"
+      
+      responses:
+        200:
+          description: La información del cliente se obtuvo correctamente
+          schema:
+            $ref: '#/components/schemas/Clients'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        402:
+          $ref: '#/components/responses/ServerError'
+        500:
+          $ref: '#/components/responses/NotFound'
+  /subsidiaries/:
+    get:
+      tags:
+      - sucursales
+      summary: Obtiene todas las sucursales de la empresa
+      parameters:
+      - $ref: '#/components/parameters/token'
+      
+      responses:
+        200:
+          description: La información de las sucursales se obtuvo correctamente
+          schema:
+            $ref: '#/components/schemas/Subsidiaries'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        402:
+          $ref: '#/components/responses/ServerError'
+        500:
+          $ref: '#/components/responses/NotFound'
+
+components:
+  responses:
+    unauthorized:
+      description: No hay autorización para llamar al servicio
+    NotFound:
+      description: No se encontro la información
+    BadRequest:
+      description: Los datos enviados son incorrectos
+    ServerError:
+      description: Error del servidor
+    SaveCorrectReserve:
+      description: La reserva se guardo correctamente
+    GetCorrectProducts:
+      description: La información del producto se obtuvo correctamente
+      
+  
+  parameters:
+    token:
+      in: header
+      name: token
+      description: Token de autenticación
+      required: true
+    bodyreserves:
+      in: "body"
+      name: "body"
+      description: "Datos de la reserva"
+      required: true
+      schema:
+        $ref: "#/components/schemas/BodyReservasPost"
+      
+  schemas:
+    BodyReservasPost:
+      type: object
+      properties:
+        ci:
+          type: string
+          description: cedula de identidad del cliente
+        name:
+          type: string
+          description: nombre del cliente
+        subsidiary:
+          type: string
+          description: id de la sucursal
+        products:
+          $ref: "#/components/schemas/Products"
+        totalprice:
+          type: number
+          description: precio total de la reserva
+        date::
+          type: string
+          format: date
+          description: fecha de la reservación
+          
+    Products:
+      type: object
+      properties:
+        name:
+          type: string
+          description: nombre del producto
+        stock:
+          type: number
+          description: cantidad del producto
+        price:
+          type: number
+          description: precio del producto
+    Clients:
+      type: object
+      properties:
+        id:
+          type: number
+          description: id del cliente
+        name:
+          type: string
+          description: nombre del cliente
+    Subsidiaries:
+      type: object
+      properties:
+        id:
+          type: number
+          description: id de la sucursal
+        name:
+          type: string
+          description: nombre de la sucursal
+        ubicacion:
+          type: string
+          description: ubicacion de la sucursal
+        attention:
+          type: string
+          description: horarios de atención de la sucursal
+        number:
+          type: number
+          description: número de telefono de la sucursal
