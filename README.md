@@ -6,7 +6,7 @@ https://app.swaggerhub.com/apis/jmlunav/InicioSesionYRegistro/1.0.0
 
 # Mockups
 
-Enlace para ingresar a Balsamiq
+Enlace para ingresar a Balsamiq Luna Vasquez Jose Marcos
 https://balsamiq.cloud/soak8dc/pn249lg
 
 Enlace Balsamiq Aruquipa Peralta Teddy
