@@ -6,3 +6,6 @@ https://app.swaggerhub.com/apis/jmlunav/InicioSesionYRegistro/1.0.0
 
 Enlace para ingresar a Balsamiq
 https://balsamiq.cloud/soak8dc/pn249lg
+
+Enlace Balsamiq Aruquipa Peralta Teddy
+https://balsamiq.cloud/s4usbf8/p2z1bhd
