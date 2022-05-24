@@ -161,6 +161,9 @@ components:
         name:
           type: string
           description: nombre del producto
+        detail:
+          type: string
+          description: detalles del producto
         stock:
           type: number
           description: cantidad del producto
