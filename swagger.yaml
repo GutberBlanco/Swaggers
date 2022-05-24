@@ -1,0 +1,634 @@
+openapi: 3.0.1
+info:
+  title: Api Bot MetalCorp
+  description: Esta API se encarga del manejo de informacion de la base da datos de la empresa Metalcorp.
+  version: 1.0.0
+servers:
+- url: https://api.metalcorp/v1/
+tags:
+- name: Login clientes
+  description: Este enpoint se encarga en todo lo relacionado con el acceso al cliente
+- name: Reservas
+  description: Este endpoint se encarga en todo lo relacionado con la reserva de productos.
+- name: Sucursales
+  description: Este endpoint se encarga en todo lo relacionado con la información de las sucursales.
+- name: Productos
+  description: Este endpoint se encarga en todo lo relacionado con la información de las sucursales.
+  
+paths:
+  /cliente:
+    post:
+      tags:
+      - Login clientes
+      summary: Inserta usario y contraseña para tener acceso.
+      parameters:
+      - $ref: '#/components/parameters/jmUsuario'
+      - $ref: '#/components/parameters/jmContrasena'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/jmUsuarioPost'
+        required: true
+      responses:
+        200:
+          description: Ingresa satisfactoriamente al Menu Principal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exito'
+
+        400:
+          $ref: '#/components/responses/NoAutorizado'
+        401:
+          $ref: '#/components/responses/NoEncontrado'
+        404:
+          $ref: '#/components/responses/AccesoIncorrecto'
+        500:
+          $ref: '#/components/responses/ErrorServidor'
+          
+  /cliente/{idusuario}/usuario:
+    get:
+      tags:
+      - Login clientes
+      summary: obtiene el usuario y contraseña del cliente para acceder rápidamente.
+      parameters:
+      - name: idusuario
+        in: path
+        description: Obtiene el id de la Base de Datos y llena los espacios de Usuario y Contraseña
+        required: true
+        schema:
+          type: string
+          
+      responses:
+        200:
+          description: Ingresa satisfactoriamente al Menu Principal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exito'
+        401:
+          $ref: '#/components/responses/NoEncontrado'
+        500:
+          $ref: '#/components/responses/ErrorServidor'
+  /Carnet_Celular:
+    post:
+      tags:
+      - Login clientes
+      summary: Inserta su carnet y celular para recuperar su contraseña y usuario
+      parameters:
+      - $ref: '#/components/parameters/jmnuevaContrasenaCarnet'
+      - $ref: '#/components/parameters/jmnuevaContrasenaCelular'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/jmrecuperaPost'
+        required: true
+      responses:
+        200:
+          description: Ingresa satisfactoriamente al Menu Principal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exito'
+
+        400:
+          $ref: '#/components/responses/NoAutorizado'
+        401:
+          $ref: '#/components/responses/NoEncontrado'
+        404:
+          $ref: '#/components/responses/AccesoIncorrecto'
+        500:
+          $ref: '#/components/responses/ErrorServidor'
+          
+  /cliente/{carnet}/{celular}:
+    get:
+      tags:
+      - Login clientes
+      summary: Obtiene el carnet del usuario para verificar si el cliente estuvo registrado.
+      parameters:
+      - name: carnet
+        in: path
+        description: Obtiene el carnet
+        required: true
+        schema:
+          type: integer
+      - name: celular
+        in: path
+        description: Obtiene el numero celular
+        required: true
+        schema:
+          type: integer
+          
+      responses:
+        200:
+          description: Ingresa satisfactoriamente al Menu Principal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exito'
+
+        400:
+          $ref: '#/components/responses/NoAutorizado'
+        401:
+          $ref: '#/components/responses/NoEncontradoUsuario'
+        404:
+          $ref: '#/components/responses/UsuarioIncorrecto'
+        500:
+          $ref: '#/components/responses/ErrorServidor'
+
+  /nuevacontraseña:
+    post:
+      tags:
+      - Login clientes
+      summary: Inserta dos veces la nueva contraseña
+      parameters:
+      - $ref: '#/components/parameters/jmnuevaContrasena1'
+      - $ref: '#/components/parameters/jmnuevaContrasena2'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/jmnuevacontrasenaPost'
+        required: true
+      responses:
+        200:
+          description: Ingresa satisfactoriamente al Menu Principal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exito'
+
+        400:
+          $ref: '#/components/responses/NoAutorizado'
+        401:
+          $ref: '#/components/responses/NoEncontrado'
+        404:
+          $ref: '#/components/responses/AccesoIncorrecto'
+        500:
+          $ref: '#/components/responses/ErrorServidor'
+         
+  /contraseña:
+    put:
+      tags:
+      - Login clientes
+      summary: Actualiza contraseña
+     # parameters:
+      #- $ref: '#/components/parameters/jmnuevaContrasena1'
+      #- $ref: '#/components/parameters/jmnuevaContrasena2'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/jmrecuperaPut'
+        required: true
+      responses:
+        200:
+          description: Ingresa satisfactoriamente al Menu Principal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exito'
+
+        400:
+          $ref: '#/components/responses/NoAutorizado'
+        401:
+          $ref: '#/components/responses/NoEncontrado'
+        404:
+          $ref: '#/components/responses/AccesoIncorrecto'
+        500:
+          $ref: '#/components/responses/ErrorServidor'
+    
+  /NuevoUsuario:
+    post:
+      tags:
+      - Login clientes
+      summary: Inserta una nueva reserva a la base de datos.
+      parameters:
+      - $ref: '#/components/parameters/token'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/jmNuevoUsuario'
+        required: true
+      responses:
+        200:
+          description: (OK) La reserva se guardo correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exito'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+          
+  /cliente/{idusuario}:
+    get:
+      tags:
+      - Login clientes
+      summary: obtiene los datos del cliente de la base de datos.
+      parameters:
+      - name: idusuario
+        in: path
+        description: Obtiene el id de la Base de Datos 
+        required: true
+        schema:
+          type: string
+          
+      responses:
+        200:
+          description: Obtiene satisfactoriamente los datos del cliente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/jmDatos'
+       
+        500:
+          $ref: '#/components/responses/ErrorServidor'
+        
+  /datosUsuario:
+    put:
+      tags:
+      - Login clientes
+      summary: Actualiza los datos del usuario
+     # parameters:
+      #- $ref: '#/components/parameters/jmnuevaContrasena1'
+      #- $ref: '#/components/parameters/jmnuevaContrasena2'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/jmDatos'
+        required: true
+      responses:
+        200:
+          description: Ingresa satisfactoriamente al Menu Principal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exito'
+
+        400:
+          $ref: '#/components/responses/NoAutorizado'
+        401:
+          $ref: '#/components/responses/NoEncontrado'
+        404:
+          $ref: '#/components/responses/AccesoIncorrecto'
+        500:
+          $ref: '#/components/responses/ErrorServidor'
+    
+
+         
+          
+  /reserves:
+    post:
+      tags:
+      - Reservas
+      summary: Inserta una nueva reserva a la base de datos.
+      parameters:
+      - $ref: '#/components/parameters/token'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BodyReservasPost'
+        required: true
+      responses:
+        200:
+          description: (OK) La reserva se guardo correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exito'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    
+  /products/{idProducto}:
+    get:
+      tags:
+      - Productos
+      summary: Obtiene los datos de un producto mediante su id.
+      parameters:
+      - $ref: '#/components/parameters/token'
+      - name: idProducto
+        in: path
+        description: "El id del producto a obtener"
+        required: true
+        schema:
+          type: integer
+          additionalProperties: false
+          format: int64
+        
+      responses:
+        200:
+          description: (OK) Solicitud procesada correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Products'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+  
+  /subsidiaries:
+    get:
+      tags:
+      - Sucursales
+      summary: Obtiene la lista de sucursales de la empresa
+      parameters:
+      - $ref: '#/components/parameters/token'
+        
+      responses:
+        200:
+          description: (OK) Solicitud procesada correctamente.
+          content:
+            application/json:
+              schema:
+                  type: "array"
+                  items:
+                    $ref: "#/components/schemas/Subsidiaries"
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+          
+components:
+  responses:
+    unauthorized:
+      description: No hay autorización para llamar al servicio
+    NotFound:
+      description: No se encontro la información
+    ServerError:
+      description: Error del servidor
+    SaveCorrectReserve:
+      description: La reserva se guardo correctamente
+    GetCorrectProducts:
+      description: La información del producto se obtuvo correctamente
+    BadRequest:
+      description: Solicitud Incorrecta
+      
+    NoAutorizado:
+      description: No hay autorización para llamar al servicio
+    NoEncontrado:
+      description: Usuario o contraseña incorrectas
+    ErrorServidor:
+      description: Error del servidor comuniquese con Sistemas
+    AccesoIncorrecto:
+      description: Usuario no encontrado o no registrado
+      
+    NoEncontradoUsuario:
+     description: Carnet o celular incorrectos
+    UsuarioIncorrecto:
+      description: carnet no encontrado o no registrado
+
+      
+  
+  parameters:
+    jmnuevaContrasenaCarnet:
+        name: carnet
+        in: header
+        description: carnet con el que fue registrado.
+        required: true
+        schema:
+          type: integer
+    jmnuevaContrasenaCelular:
+        name: Celular
+        in: header
+        description: Celular con el que fue registrado.
+        required: true
+        schema:
+          type: integer
+    jmUsuario:
+        name: Usuario
+        in: header
+        description: Nombre de Usuario con el que fue registrado.
+        required: true
+        schema:
+          type: string
+    jmContrasena:
+        name: Contraseña
+        in: header
+        description: Contraseña con el que fue registrado.
+        required: true
+        schema:
+          type: string
+
+    jmnuevaContrasena1:
+        name: contraseña
+        in: header
+        description: Ingresa una nueva contraseña
+        required: true
+        schema:
+          type: string
+    jmnuevaContrasena2:
+        name: Repite contraseña
+        in: header
+        description: Ingresa una nueva contraseña
+        required: true
+        schema:
+          type: string
+
+
+    
+    token:
+        name: token
+        in: header
+        description: Token de autenticación.
+        required: true
+        schema:
+          type: string
+    
+    
+    
+    descripcion:
+        name: description
+        in: query
+        description: Datos del producto.
+        required: false
+        schema:
+          type: string
+    
+    
+  
+  schemas:
+    jmUsuarioPost:
+      type: object
+      properties:
+        Usuario:
+          type: string
+          description: Nombre de Usuario del cliente
+        Contraseña:
+          type: string
+          description: Contraseña del cliente
+          
+    jmrecuperaPost:
+      type: object
+      properties:
+        carnet:
+          type: integer
+          description: usuario cliente
+        Celular:
+          type: integer
+          description: contraseña cliente
+          
+    jmrecuperaPut:
+      type: object
+      properties:
+        Usuario:
+          type: string
+          description: usuario cliente
+        ContrasenaNueva:
+          type: string
+          description: contraseña cliente
+          
+    jmnuevacontrasenaPost:
+      type: object
+      properties:
+        nuevacontraseña:
+          type: string
+          description: Ingresa la nueva contraseña
+        repitecontraseña:
+          type: string
+          description: repite nueva contraseña
+          
+    jmNuevoUsuario:
+      type: object
+      properties:
+        products:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/jmlNuevoUsuario"
+   
+    jmlNuevoUsuario:
+      type: object
+      properties:
+        Carnet:
+          type: integer
+          description: carnet cliente
+        Nombre:
+          type: string
+          description: Nombre
+        Apellido:
+          type: string
+          description: Apellido
+        Celular:
+          type: integer
+          description: celular
+        Usuario:
+          type: string
+          description: nombre de usuario
+        Contraseña:
+          type: string
+          description: contraseña
+        Repite contraseña:
+          type: string
+          description: repite contraseña
+    jmDatos:
+      type: object
+      properties:
+        carnet:
+          type: integer
+          description: carnet
+        nombre:
+          type: string
+          description: nombre
+        apellido:
+          type: string
+          description: apellido
+        celular:
+          type: integer
+          description: celular
+        Usuario:
+          type: string
+          description: usuario
+          
+ 
+          
+    
+    BodyReservasPost:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Id del cliente
+        subsidiary:
+          type: string
+          description: id de la sucursal
+        products:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Products"
+          
+        date::
+          type: string
+          format: date
+          description: fecha para el recojo de la reserva
+          
+    Products:
+      type: object
+      properties:
+        name:
+          type: string
+          description: nombre del producto
+        detail:
+          type: string
+          description: detalles del producto
+        stock:
+          type: number
+          description: cantidad del producto
+        price:
+          type: number
+          description: precio del producto
+          
+ 
+
+         
+    Subsidiaries:
+      type: object
+      properties:
+        id:
+          type: number
+          description: id de la sucursal
+        name:
+          type: string
+          description: nombre de la sucursal
+        ubicacion:
+          type: string
+          description: ubicacion de la sucursal
+        attention:
+          type: string
+          description: horarios de atención de la sucursal
+        number:
+          type: number
+          description: número de telefono de la sucursal
+    
+    Exito:
+      type: object
+      properties:
+        respuesta:
+          type: integer
+          enum: [1]
+          description: Bandera que indica si la llamada fue exitosa.
+         
