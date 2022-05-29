@@ -884,10 +884,10 @@ components:
           items:
             $ref: "#/components/schemas/Products"
 
-        date::
-        type: string
-        format: date
-        description: fecha para el recojo de la reserva
+        date: 
+          type: string
+          format: date
+          description: fecha para el recojo de la reserva
 
     Products:
       type: object
