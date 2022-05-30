@@ -552,14 +552,14 @@ components:
   parameters:
     jmnuevaContrasenaCarnet:
       name: carnet
-      in: header
+      in: query
       description: carnet con el que fue registrado.
       required: true
       schema:
         type: integer
     jmnuevaContrasenaCelular:
       name: Celular
-      in: header
+      in: query
       description: Celular con el que fue registrado.
       required: true
       schema:
@@ -573,7 +573,7 @@ components:
         type: string
     jmContrasena:
       name: Contraseña
-      in: header
+      in: query
       description: Contraseña con el que fue registrado.
       required: true
       schema:
@@ -581,14 +581,14 @@ components:
 
     jmnuevaContrasena1:
       name: contraseña
-      in: header
+      in: query
       description: Ingresa una nueva contraseña
       required: true
       schema:
         type: string
     jmnuevaContrasena2:
       name: Repite contraseña
-      in: header
+      in: query
       description: Ingresa una nueva contraseña
       required: true
       schema:
