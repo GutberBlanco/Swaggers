@@ -6,8 +6,6 @@ info:
 servers:
   - url: https://api.metalcorp/v1/
 tags:
-  - name: Login clientes
-    description: Este enpoint se encarga en todo lo relacionado con el acceso al cliente
   - name: Usuarios
     description: Este endpoint se encarga en todo lo relacionado con la informacion de los usuarios.
   - name: Reservas
@@ -16,6 +14,8 @@ tags:
     description: Este endpoint se encarga en todo lo relacionado con la información de las sucursales.
   - name: Productos
     description: Este endpoint se encarga en todo lo relacionado con la información de las sucursales.
+  - name: Login clientes
+    description: Este enpoint se encarga en todo lo relacionado con el acceso al cliente
 
 paths:
   /users/auth:
