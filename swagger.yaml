@@ -23,9 +23,6 @@ paths:
       tags:
         - Usuarios
       summary: Verifica la informacion del usuario que desea iniciar sesion.
-      parameters:
-        - $ref: '#/components/parameters/Username'
-        - $ref: '#/components/parameters/Password'
       requestBody:
         content:
           application/json:
@@ -34,7 +31,7 @@ paths:
         required: true
       responses:
         200:
-          description: (OK) La reserva se guardo correctamente
+          description: (OK) Exito en el acceso del usuario
           content:
             application/json:
               schema:
@@ -90,9 +87,7 @@ paths:
           content:
             application/json:
               schema:
-                type: "array"
-                items:
-                  $ref: "#/components/schemas/ImagenGeneral"
+                $ref: "#/components/schemas/ImagenGeneral"
         500:
           $ref: '#/components/responses/ServerError'
 
